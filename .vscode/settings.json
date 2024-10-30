@@ -1,0 +1,30 @@
+{
+    "rest-client.environmentVariables": {
+  
+      "$shared": {
+        "host":"http://localhost:4678/api"
+      },
+  
+      "adminEnv": {
+        "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAxLCJlbWFpbCI6ImFkbWluIiwiaXNBZG1pbiI6MSwiaXNQbGFubmVyIjowLCJpc1N0YXRpc3QiOjAsImlhdCI6MTcyOTY3NDUzNSwiZXhwIjoxNzI5NzYwOTM1fQ.bN6f5ydwrPPnCUObP1iTpWcSXUXgs00ihWeoZvF5Ec0"
+      },
+      "plannerEnv": {
+        "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAyLCJlbWFpbCI6InBsYW5uZXIiLCJpc0FkbWluIjowLCJpc1BsYW5uZXIiOjEsImlzU3RhdGlzdCI6MCwiaWF0IjoxNzA3NzMxMzA5LCJleHAiOjE3MDc4MTc3MDl9.1V6y7sJc6Db_VGn2lrRIIUVOWMgZjykRX23P0S5HPvc"
+      },
+      "statistEnv": {
+        "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAzLCJlbWFpbCI6InN0YXRpc3QiLCJpc0FkbWluIjowLCJpc1BsYW5uZXIiOjAsImlzU3RhdGlzdCI6MSwiaWF0IjoxNzA3MTI4Nzc0LCJleHAiOjE3MDcyMTUxNzR9.iTl9UP7qmfQI3EoFf7Uy-3hkTO1Au_bR7n5baJYTrkA"
+      },
+  
+      "noRoleEnv": {
+        "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjA0LCJlbWFpbCI6Im5vcm9sZXVzZXIiLCJpc0FkbWluIjowLCJpc1BsYW5uZXIiOjAsImlzU3RhdGlzdCI6MCwiaWF0IjoxNzA3MTI4OTA1LCJleHAiOjE3MDcyMTUzMDV9.668a_Ho0_n47pUKdNXOFyl72QArKSPzeq8TkuUgxxhc"
+      },
+
+      "expiredTokenEnv": {
+        "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAxLCJlbWFpbCI6ImFkbWluIiwiaXNBZG1pbiI6MSwiaXNQbGFubmVyIjowLCJpc1N0YXRpc3QiOjAsImlhdCI6MTcwNjE3MDcyOSwiZXhwIjoxNzA2MjU3MTI5fQ.AQyijNOFMs418CarfGP415imr2Oanh0Fzb4cgKBN9x8"
+      },
+      "invalidTokenEnv": {
+        "token":"EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAxLCJlbWFpbCI6ImFkbWluIiwiaXNBZG1pbiI6MSwiaXNQbGFubmVyIjowLCJpc1N0YXRpc3QiOjAsImlhdCI6MTcwNjE3MDcyOSwiZXhwIjoxNzA2MjU3MTI5fQ.AQyijNOFMs418CarfGP415imr2Oanh0Fzb4cgKBN9x8"
+      }
+  
+    }
+}
