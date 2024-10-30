@@ -1358,7 +1358,7 @@ INSERT INTO log_type(name) VALUES ("allocation");
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 
-CREATE TABLE City (
+CREATE TABLE City IF NOT EXISTS (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(200),
   established DATE,
@@ -1366,6 +1366,15 @@ CREATE TABLE City (
 );
 
 INSERT INTO City (name, established, averageTemp) VALUES
-('Example City', '1800-01-01', 15.2),
-('Sampleville', '1900-05-20', 16.4);
+    ('Helsinki', '1550-06-12', 7.5),
+    ('Espoo', '1458-01-01', 6.8),
+    ('Vantaa', '1331-01-01', 6.7),
+    ('Tampere', '1779-10-01', 6.5),
+    ('Joensuu', '1848-11-29', 5.8),
+    ('Jyväskylä', '1837-03-22', 6.2),
+    ('Pori', '1558-03-08', 6.0),
+    ('Kirkkonummi', '1330-01-01', 6.4),
+    ('Rovaniemi', '1785-08-01', 4.0),
+    ('Kemi', '1869-03-05', 4.8);
+
 
