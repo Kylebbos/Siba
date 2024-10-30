@@ -1,0 +1,15 @@
+name: db_project
+
+services:
+  mariadb_service:
+    image: mariadb:latest   # OR:   mariadb:11.1.2-jammy
+    container_name: mariadb_container
+    env_file: .env
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - ./Database/SQL_Scripts/000__CreateALLdb.sql:/docker-entrypoint-initdb.d/init.sql
+      - mariadb_data:/var/lib/mysql
+
+volumes:
+  mariadb_data:

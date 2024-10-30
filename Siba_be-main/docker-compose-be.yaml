@@ -1,0 +1,17 @@
+# Docker compose: https://docs.docker.com/compose/
+# YAML: https://yaml.org/spec/1.2.2/
+
+name: be_project
+
+services:
+  siba_be:
+    build: .
+    container_name: siba_be
+    env_file: .env
+    environment:
+      - DB_HOST=host.docker.internal
+    ports:
+      - "${BE_SERVER_PORT}:${BE_SERVER_PORT}"
+    volumes:
+      - .:/app
+      - /app/node_modules

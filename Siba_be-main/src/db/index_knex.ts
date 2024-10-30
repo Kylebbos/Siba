@@ -1,0 +1,24 @@
+import dotenv from 'dotenv';
+import knex from 'knex';
+
+dotenv.config({});
+
+const databaseConfigObject = {
+  client: process.env.DB_DRIVER_MODULE || 'mysql',
+  connection: {
+    host: process.env.DB_HOST || 'localhost',
+    port: Number(process.env.DB_PORT) || 3306,
+    user: process.env.MARIADB_USER,
+    password: process.env.MARIADB_PASSWORD,
+    database: process.env.MARIADB_DATABASE,
+    debug: process.env.DB_DEBUG,
+    multipleStatements: true,
+  },
+  pool: {
+    min: Number(process.env.DB_CONNECTION_POOL_MIN) || 0,
+    max: Number(process.env.DB_CONNECTION_POOL_MAX) || 7,
+  },
+};
+
+// initiate knex with config
+export default knex(databaseConfigObject);

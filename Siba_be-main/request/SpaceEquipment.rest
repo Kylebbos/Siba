@@ -1,0 +1,52 @@
+### Remember to select the proper rest client environment
+
+### Reset database in admin env before performing other tests
+GET {{host}}/resetDatabase
+Authorization: Basic {{token}}
+
+### 1. Get all spaces to see existing Ids:
+GET {{host}}/space
+Authorization: Basic {{token}}
+
+### 2. Get list of equipments for the space, by existing space Id. 
+### Change the space Id until satisfying results:
+GET {{host}}/spaceequipment/getEquipment/1005
+Authorization: Basic {{token}}
+
+### Set up for other tests:
+# Select space id (better space with less equipment) to add new equipment later:
+@spaceId=1004
+
+### 3. Get list of equipments for selected space ID
+GET {{host}}/spaceequipment/getEquipment/{{spaceId}}
+Authorization: Basic {{token}}
+
+### 4. Get the list of all equipment to choose existing id, which is not in the selected space
+GET {{host}}/equipment
+Authorization: Basic {{token}}
+
+### Set up:
+# Select existing equipment id, which is not in the selected space yet:
+@equipmentId=2001
+
+### 5. Creating the new spaceEquipment based on the unique combination of existing spaceId and equipmentId
+POST {{host}}/spaceequipment/post
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+  "spaceId": {{spaceId}},
+  "equipmentId": {{equipmentId}}
+}
+
+### 6. Confirm newly created spaceEquipment by fetching list of equipments for selected space (selected equipmentId should be in the list)
+GET {{host}}/spaceequipment/getEquipment/{{spaceId}}
+Authorization: Basic {{token}}
+
+### 7. Delete newly created spaceEquipment by selected spaceId and equipmentId
+DELETE {{host}}/spaceequipment/delete/{{spaceId}}/{{equipmentId}}
+Authorization: Basic {{token}}
+
+### 8. Confirm deletion. The selected equipment shouldn't be in the list
+GET {{host}}/spaceequipment/getEquipment/{{spaceId}}
+Authorization: Basic {{token}}

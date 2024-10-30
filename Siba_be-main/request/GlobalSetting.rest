@@ -1,0 +1,62 @@
+### Remember to select the proper rest client environment
+
+### Reset database in admin env before performing other tests
+GET {{host}}/resetDatabase
+Authorization: Basic {{token}}
+
+
+### 1. Get all GlobalSettings to have a general overview:
+GET {{host}}/setting
+Authorization: Basic {{token}}
+
+
+### Initial setup: Set the nextId after Testdata Reset
+### It should come after the last id in test data
+@nextId=4
+
+
+### 2. Get one by known id (use GlobalSetting id that is known to exist)
+GET {{host}}/setting/1
+Authorization: Basic {{token}}
+
+
+### 3. Create new globalSetting (Assume that the created globalSetting gets `nextId` or should be replaced with a returned ID to continue with the test)
+POST {{host}}/setting/
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+  "variable": "test setting xyz1234567",
+  "description": "Setting for just Rest api test case",
+  "numberValue": 555,
+  "textValue": "Hello"
+}
+
+### 4. Confirm newly created setting using the `nextId` (This will verify creation was successful and the correct ID was assigned)
+GET {{host}}/setting/{{nextId}}
+Authorization: Basic {{token}}
+
+### 5. Update the globalSetting using `nextId` (in request body):
+PUT {{host}}/setting
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+  "id": {{nextId}},
+  "variable": "Updated name here",
+  "description": "Updated description",
+  "numberValue": 444,
+  "textValue": "Updated Text Value"
+}
+
+### 6. Confirm the update (Ensure the update took effect)
+GET {{host}}/setting/{{nextId}}
+Authorization: Basic {{token}}
+
+### 7. Delete the globalSetting (Test the delete operation)
+DELETE {{host}}/setting/{{nextId}}
+Authorization: Basic {{token}}
+
+### 8. Confirm deletion (Trying to retrieve it should result in an empty array)
+GET {{host}}/setting/{{nextId}}
+Authorization: Basic {{token}}

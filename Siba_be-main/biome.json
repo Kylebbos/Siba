@@ -1,0 +1,21 @@
+{
+  "files": {
+    "ignore": ["dist/"]
+  },
+  "formatter": {
+    "indentStyle": "space"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "style": {
+        "noUselessElse": "off"
+      }
+    }
+  }
+}

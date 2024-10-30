@@ -1,0 +1,68 @@
+### Add received tokens to root root folder's .vscode folder's settings.json file
+POST {{host}}/user/login
+Content-Type: application/json
+
+{
+  "email":"admin",
+  "password":"admin"
+}
+
+###
+POST {{host}}/user/login
+Content-Type: application/json
+
+{
+  "email":"planner",
+  "password":"planner"
+}
+
+###
+POST {{host}}/user/login
+Content-Type: application/json
+
+{
+  "email":"statist",
+  "password":"statist"
+}
+
+###
+POST {{host}}/user/login
+Content-Type: application/json
+
+{
+  "email":"noroleuser",
+  "password":"noroleuser"
+}
+
+### Testing adding multi user for csv
+POST {{host}}/user/multi
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+[
+  {
+    "email": "testingUser1@gmail.com",
+    "password": "testingUser1",
+    "isAdmin": 1,
+    "isPlanner": 0,
+    "isStatist": 0,
+    "department":"Mutri"
+  },
+  {
+    "email": "testingUser2@gmail.com",
+    "password": "testingUser2",
+    "isAdmin": 0,
+    "isPlanner": 1,
+    "isStatist": 0,
+    "department":"Mutri"
+  }
+]
+
+### checking login for user1
+POST {{host}}/user/login
+Content-Type: application/json
+
+{
+  "email":"testingUser1@gmail.com",
+  "password":"testingUser1"
+}

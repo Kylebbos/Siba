@@ -1,0 +1,76 @@
+### Remember to select the proper rest client environment
+
+### Reset database in admin env before performing other tests
+GET {{host}}/resetDatabase
+Authorization: Basic {{token}}
+
+### 1. Get a list of all programs to have a general overview
+GET {{host}}/program
+Authorization: Basic {{token}}
+
+### 2. Get the number of lessons of the program. Change the program id until satisfying result;
+GET {{host}}/program/3020/numberOfLessons
+Authorization: Basic {{token}}
+
+### Initial setup: Set the nextId after Testdata Reset
+### It should come after the last id in test data
+@nextId=3031
+
+### 3. Get a program by known id (id, name, and department id)
+GET {{host}}/program/3029
+Authorization: Basic {{token}}
+
+### 4. Get all users to choose known user id:
+GET {{host}}/user
+Authorization: Basic {{token}}
+
+### 5. Get program name(s) by known user id (you can change user ids until satisfying result)
+GET {{host}}/program/userprograms/203
+Authorization: Basic {{token}}
+
+### 6. Get all departments to choose known department id:
+GET {{host}}/department
+Authorization: Basic {{token}}
+
+### 7. Create new program (Assume that the created program gets `nextId` or should be replaced with a returned ID to continue with the test)
+### The departmentId should be one of existing department:
+POST {{host}}/program
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "Test 1",
+    "departmentId" : "101"
+}
+
+### 8. Confirm the newly created program using the `nextId` (This will verify creation was successful and the correct ID was assigned)
+GET {{host}}/program/{{nextId}}
+Authorization: Basic {{token}}
+
+### 9. Get all departments to choose known department id:
+GET {{host}}/department
+Authorization: Basic {{token}}
+
+### 10. Update an existing program by `nextId` (in req body)
+### The new department Id should also be among existing ones
+PUT {{host}}/program
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "id": {{nextId}},
+    "name": "Updated test 1",
+    "departmentId": 102
+}
+
+### 11. Confirm the update (Ensure the update took effect)
+GET {{host}}/program/{{nextId}}
+Authorization: Basic {{token}}
+
+### 12. Delete a program (Test the delete operation)
+DELETE {{host}}/program/{{nextId}}
+Authorization: Basic {{token}}
+
+### 13. Confirm deletion (Trying to retrieve it should result in an empty array)
+GET {{host}}/program/{{nextId}}
+Authorization: Basic {{token}}

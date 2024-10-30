@@ -1,0 +1,188 @@
+{
+  "info": {
+    "_postman_id": "13e9f923-010f-4389-8bf1-9af9cadd91f0",
+    "name": "siba-case-collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "8942792",
+    "_collection_link": "https://martian-firefly-799040.postman.co/workspace/task-signature-workspace~42371aa3-742f-4243-92b6-9599e545c834/collection/8942792-13e9f923-010f-4389-8bf1-9af9cadd91f0?action=share&creator=8942792&source=collection_link"
+  },
+  "item": [
+    {
+      "name": "allocation_multiple",
+      "item": [
+        {
+          "name": "/allocation (OK)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{SIBA_BE_ADDRESS}}:{{SIBA_BE_PORT}}/api/allocation",
+              "protocol": "http",
+              "host": ["{{SIBA_BE_ADDRESS}}"],
+              "port": "{{SIBA_BE_PORT}}",
+              "path": ["api", "allocation"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "allocation_single",
+      "item": [
+        {
+          "name": "/allocation/id (OK)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{SIBA_BE_IP}}:{{SIBA_BE_PORT}}/api/allocation/{{SIBA_ALLOCROUNDID_CURRENT}}",
+              "protocol": "http",
+              "host": ["{{SIBA_BE_IP}}"],
+              "port": "{{SIBA_BE_PORT}}",
+              "path": ["api", "allocation", "{{SIBA_ALLOCROUNDID_CURRENT}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/allocation/ (OK)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "    {\r\n        \"id\": 10004,\r\n        \"name\": \"Demon\",\r\n        \"isSeasonAlloc\": 0,\r\n        \"description\": \"Allocointi demoamista warten\",\r\n        \"lastModified\": \"2023-04-02T17:17:15.000Z\",\r\n        \"isAllocated\": 1,\r\n        \"processOn\": 0,\r\n        \"Subjects\": 46,\r\n        \"allocated\": 35,\r\n        \"unAllocated\": 11\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{SIBA_BE_ADDRESS}}:{{SIBA_BE_PORT}}/api/allocation/update",
+              "protocol": "http",
+              "host": ["{{SIBA_BE_ADDRESS}}"],
+              "port": "{{SIBA_BE_PORT}}",
+              "path": ["api", "allocation", "update"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/allocation/ (OK)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "    {\r\n        \"name\": \"Demon\",\r\n        \"isSeasonAlloc\": 0,\r\n        \"description\": \"Allokointi demoamista varten\",\r\n        \"lastModified\": \"2023-04-02T17:17:15.000Z\",\r\n        \"isAllocated\": 1,\r\n        \"processOn\": 0,\r\n        \"Subjects\": 46,\r\n        \"allocated\": 35,\r\n        \"unAllocated\": 11\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{SIBA_BE_ADDRESS}}:{{SIBA_BE_PORT}}/api/allocation/post",
+              "protocol": "http",
+              "host": ["{{SIBA_BE_ADDRESS}}"],
+              "port": "{{SIBA_BE_PORT}}",
+              "path": ["api", "allocation", "post"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "building_multiple",
+      "item": []
+    },
+    {
+      "name": "user_single",
+      "item": [
+        {
+          "name": "Login w. email (OK)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{SIBA_BE_ADDRESS}}:{{SIBA_BE_PORT}}/api/user/testi3%40testi%2Ecom",
+              "protocol": "http",
+              "host": ["{{SIBA_BE_ADDRESS}}"],
+              "port": "{{SIBA_BE_PORT}}",
+              "path": ["api", "user", "testi3%40testi%2Ecom"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/user/    Register new user (OK)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-auth-token",
+                "value": "{{SIBA_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"uusiuser2@gmail.com\",\"password\":\"$2a$10$f4cmsOUA/s1dOG/3ru3qVOkg5GbbK07Pz.f.n9HpeP6YBxXJMZBXi\",\"isAdmin\":\"1\",\"isPlanner\":\"0\",\"isStatist\":\"1\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{SIBA_BE_ADDRESS}}:{{SIBA_BE_PORT}}/api/user/",
+              "protocol": "http",
+              "host": ["{{SIBA_BE_ADDRESS}}"],
+              "port": "{{SIBA_BE_PORT}}",
+              "path": ["api", "user", ""]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "SIBA_ALLOCROUNDID_CURRENT",
+      "value": "10004"
+    },
+    {
+      "key": "SIBA_BE_PORT",
+      "value": "1234",
+      "type": "string"
+    },
+    {
+      "key": "SIBA_BE_ADDRESS",
+      "value": "localhost"
+    },
+    {
+      "key": "SIBA_EMAIL_ADDRESS",
+      "value": "testi3@test.com"
+    }
+  ]
+}
