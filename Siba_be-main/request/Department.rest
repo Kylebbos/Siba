@@ -1,0 +1,54 @@
+### Remember to select the proper rest client environment
+
+### Reset database in admin env before performing other tests
+GET {{host}}/resetDatabase
+Authorization: Basic {{token}}
+
+### 1. Get all (this returns all departments currently in database)
+GET {{host}}/department
+Authorization: Basic {{token}}
+
+### Initial setup: Set the nextId after TestData reset.
+### It should come after the last id in test data
+@nextId = 117
+
+### 2. Get one by known id (use department id that is known to exist)
+GET {{host}}/department/102
+Authorization: Basic {{token}}
+
+### 3. Create one (returned id should match nextId)
+POST {{host}}/department
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "Harmonium",
+    "description": "Just play harmonium there"
+}
+
+### 4. Get one by id using nextId (confirms that department was created)
+GET {{host}}/department/{{nextId}}
+Authorization: Basic {{token}}
+
+### 5. Update one (updates the created department)
+PUT {{host}}/department
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "id": {{nextId}},
+    "name": "bazz2",
+    "description": "Aineryhmän kuvaus"
+}
+
+### 6. Get one by id using nextId (confirms the update)
+GET {{host}}/department/{{nextId}}
+Authorization: Basic {{token}}
+
+### 7. Delete one using nextId (deletes the department)
+DELETE {{host}}/department/{{nextId}}
+Authorization: Basic {{token}}
+
+### 8. Get one by id using nextId (confirms the deletion)
+GET {{host}}/department/{{nextId}}
+Authorization: Basic {{token}}

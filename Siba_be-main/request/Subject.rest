@@ -1,0 +1,79 @@
+### Used to test the Subject table's REST functions
+# Ensure fresh environment tokens are in use (Siba_be\request\1_Logins.rest & .vscode\settings.json)
+
+### Reset database in admin env before performing other tests
+GET {{host}}/resetDatabase
+Authorization: Basic {{token}}
+
+### 1. Get all subjects to have a general overview
+GET {{host}}/subject
+Authorization: Basic {{token}}
+
+### Initial setup: Set the nextId after Testdata Reset
+### It should come after the last id in test data
+@nextId=4040
+
+### 2. Get all subjects in an allocation (use existing allocation)
+GET {{host}}/subject/byAllocationId/10004
+Authorization: Basic {{token}}
+
+### 3. Get subject by existing (known) ID
+GET {{host}}/subject/4001
+Authorization: Basic {{token}}
+
+### 4. Create new subject (Assume that the created subject gets `nextId` or should be replaced with a returned ID to continue with the test)
+POST {{host}}/subject
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "Test name 2",
+    "groupSize": 33,
+    "groupCount": 3,
+    "sessionLength": "03:00",
+    "sessionCount": 3,
+    "area": 33,
+    "programId": 3030,
+    "programName": "Test program name",
+    "spaceTypeId": 5004,
+    "spaceTypeName": "Musiikkiluokka",
+    "allocRoundId": 10002
+}
+
+### 5. Get subject by testID to confirm newly created subject exists
+GET {{host}}/subject/{{nextId}}
+Authorization: Basic {{token}}
+
+### 6. Update subject by `nextId` (Test update operation)
+PUT {{host}}/subject
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "id": {{nextId}},
+    "name": "Updated test name",
+    "groupSize": 33,
+    "groupCount": 3,
+    "sessionLength": "03:00",
+    "sessionCount": 3,
+    "area": 33,
+    "programId": 3030,
+    "spaceTypeId": 5004,
+    "allocRoundId": 10001
+}
+
+### 7. Confirm the update (Ensure the update took effect)
+GET {{host}}/subject/{{nextId}}
+Authorization: Basic {{token}}
+
+### 8. Delete subject (Test delete operation)
+DELETE {{host}}/subject/{{nextId}}
+Authorization: Basic {{token}}
+
+### 9. Confirm deletion (Trying to retrieve it should result in a 400 error)
+GET {{host}}/subject/{{nextId}}
+Authorization: Basic {{token}}
+
+### 10. List subjects by space type id
+GET {{host}}/subject/bySpaceType/5002
+Authorization: Basic {{token}}

@@ -1,0 +1,32 @@
+// Examples of fetching all data from the apis
+GET http://localhost:8764/api/allocRound
+Authorization: Basic <put your token here>
+###
+GET http://localhost:8764/api/building
+Authorization: Basic <put your token here>
+
+###
+GET http://localhost:8764/api/department
+Authorization: Basic <put your token here>
+
+###
+GET http://localhost:8764/api/program
+Authorization: Basic <put your token here>
+
+###
+GET http://localhost:8764/api/setting
+Authorization: Basic <put your token here>
+
+###
+GET http://localhost:8764/api/space
+Authorization: Basic <put your token here>
+
+###
+GET http://localhost:8764/api/spacetype
+Authorization: Basic <put your token here>
+###
+GET http://localhost:8764/api/subject
+Authorization: Basic <put your token here>
+###
+GET http://localhost:8764/api/user
+Authorization: Basic <put your token here>

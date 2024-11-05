@@ -1,0 +1,36 @@
+PUT http://localhost:8764/api/subject
+Authorization: Basic <put your token here>
+Content-Type: application/json
+
+ {
+  "id": 4042,
+  "name": "Data structures and algorithm",
+  "groupSize": 25,
+  "groupCount": 2,
+  "sessionLength": "02:30:00",
+  "sessionCount": 2,
+  "area": 35,
+  "programId": 3030,
+  "programName": "Avoin Kampus",
+  "spaceTypeId": 5002,
+  "spaceTypeName": "Luentoluokka"
+}
+
+###
+PUT http://localhost:8764/api/space/<put space id here>
+Authorization: Basic <put your token here>
+Content-Type: application/json
+
+ {
+  "name": "Updated Space Name",
+  "area": 100,
+  "info": "Updated space info",
+  "personLimit": 50,
+  "buildingId": 401,
+  "availableFrom": "10:00:00",
+  "availableTo": "18:00:00",
+  "classesFrom": "10:00:00",
+  "classesTo": "15:00:00",
+  "inUse": true,
+  "spaceTypeId": 5001
+}

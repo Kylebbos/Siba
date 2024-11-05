@@ -1,0 +1,97 @@
+### Remember to select the proper rest client environment
+
+### Reset database in admin env before performing other tests
+GET {{host}}/resetDatabase
+Authorization: Basic {{token}}
+
+### 1. Get all buildings to have a general overview
+GET {{host}}/building
+Authorization: Basic {{token}}
+
+### Initial setup: Set the nextId after Testdata Reset
+### It should come after the last id in test data
+@nextId=404
+
+### 2. Get one by id (use a known id for this test to ensure retrieval by ID works)
+GET {{host}}/building/403
+Authorization: Basic {{token}}
+
+### 3. Create new building (Assume that the created building gets `nextId` or should be replaced with a returned ID to continue with the test)
+POST {{host}}/building
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "XYZ-building",
+    "description": "Sibeliusakatemian muu rakennus"
+}
+
+### 4. Confirm the newly created equipment using the `nextId` (This will verify creation was successful and the correct ID was assigned)
+GET {{host}}/building/{{nextId}}
+Authorization: Basic {{token}}
+
+### 5. Create new building without description
+POST {{host}}/building
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "No desc building"
+}
+
+### 6. Create building with empty string description
+POST {{host}}/building
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "Empty string desc building",
+    "description": ""
+}
+
+### 7. Get all to check if the new buildings are added to db (at the end of the list)
+GET {{host}}/building
+Authorization: Basic {{token}}
+
+### 8. Create several buildings at a time (Testing the adding of multiple buildings operation)
+POST {{host}}/building/multi
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+[
+    {
+    "name": "multi1",
+    "description": "Sibeliusakatemian toinen rakennus"
+    },
+
+    {
+    "name": "multi2"
+    }
+]
+
+### 9. Get all to confirm that new buildings specified in multiple request are in db (at the end of the list)
+GET {{host}}/building
+Authorization: Basic {{token}}
+
+### 10. Update the building using `nextId` (Test the update operation)
+PUT {{host}}/building
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "id": {{nextId}},
+    "name": "Updated name",
+    "description": "Updated Description"
+}
+
+### 11. Confirm the update (Ensure the update took effect)
+GET {{host}}/building/{{nextId}}
+Authorization: Basic {{token}}
+
+### 12. Delete the building (Test the delete operation)
+DELETE {{host}}/building/{{nextId}}
+Authorization: Basic {{token}}
+
+### 13. Confirm deletion (Trying to retrieve it should result in an 400 error)
+GET {{host}}/building/{{nextId}}
+Authorization: Basic {{token}}

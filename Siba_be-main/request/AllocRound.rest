@@ -1,0 +1,99 @@
+### Remember to select the proper rest client environment
+
+### Reset database in admin env before performing other tests
+GET {{host}}/resetDatabase
+Authorization: Basic {{token}}
+
+### 1. Get all allocRounds to have a general overview
+GET {{host}}/allocRound
+Authorization: Basic {{token}}
+
+### Initial setup: Set the nextId after Testdata Reset
+### It should come after the last id in test data
+@nextId=10005
+
+### 2. Get one by id (use a known id for this test to ensure retrieval by ID works)
+GET {{host}}/allocRound/10004
+Authorization: Basic {{token}}
+
+### 3. Create new allocRound (Assume that the created allocRound gets `nextId` or should be replaced with a returned ID to continue with the test)
+POST {{host}}/allocRound
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "New test allocround from REST client",
+    "description": "Sibeliusakatemian testiallokointi",
+    "userId": 202
+}
+
+### 4. Confirm the newly created equipment using the `nextId` (This will verify creation was successful and the correct ID was assigned)
+GET {{host}}/allocRound/{{nextId}}
+Authorization: Basic {{token}}
+
+### 5. Create one, copying subject etc. from existing one
+POST {{host}}/allocRound/copyAllocRound
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "New test allocround from REST client COPY",
+    "description": "Sibeliusakatemian testiallokointi",
+    "userId": 202,
+    "copiedAllocRoundId": 10001
+}
+
+### 6. Get all allocRounds and see the newly created one at the end of the list:
+GET {{host}}/allocRound
+Authorization: Basic {{token}}
+
+### 7. Update the allocRound using `nextId` (Test the update operation)
+PUT {{host}}/allocRound
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "id": {{nextId}},
+    "name": "Updated name",
+    "description": "Updated Description"
+}
+
+### 8. Confirm the update (Ensure the update took effect)
+GET {{host}}/allocRound/{{nextId}}
+Authorization: Basic {{token}}
+
+### 9. Delete the allocRound (Test the delete operation)
+DELETE {{host}}/allocRound/{{nextId}}
+Authorization: Basic {{token}}
+
+### 10. Confirm deletion (Trying to retrieve it should result in an empty array)
+GET {{host}}/allocRound/{{nextId}}
+Authorization: Basic {{token}}
+
+### 11. Create AllocRound with isReadOnly set to true
+POST {{host}}/allocRound
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "Test AllocRound with isReadOnly",
+    "description": "This is a test alloc round with isReadOnly set to true.",
+    "userId": 201,
+    "isReadOnly": true
+}
+
+### 12. Update AllocRound with isReadOnly set to true
+PUT {{host}}/allocRound
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "id": 10012,
+    "name": "Updated AllocRound with isReadOnly",
+    "description": "Updated description",
+    "isReadOnly": true
+}
+
+### 13. Delete AllocRound with isReadOnly set to true
+DELETE {{host}}/allocRound/10012
+Authorization: Basic {{token}}

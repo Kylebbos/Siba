@@ -1,0 +1,79 @@
+### Remember to select the proper rest client environment
+
+### Reset database in admin env before performing other tests
+GET {{host}}/resetDatabase
+Authorization: Basic {{token}}
+
+
+### 1. Get all (this returns all departmentPlanners currently in database)
+GET {{host}}/departmentplanner
+Authorization: Basic {{token}}
+
+
+### 2. Get all users to pick user's id, which is not in the departmentPlanners to ensure no duplicates
+GET {{host}}/user
+Authorization: Basic {{token}}
+
+### Initial setup: Set the nextUserId and nextDepartmentId after TestData reset.
+### The combination of these ids should be unique among the data (and user and department with these ids should exist)
+@nextUserId = 201
+
+@nextDepartmentId = 104
+
+
+### 3. Get a single user's departmentplanner data (use known user id)
+GET {{host}}/departmentplanner/202
+Authorization: Basic {{token}}
+
+
+### 4. Adding a new departmentplanner using next IDs:
+POST {{host}}/departmentplanner
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "userId": {{nextUserId}},
+    "departmentId": {{nextDepartmentId}}
+}
+
+
+### 5. Confirm the newly created departmentPlanner using the `nextUserId` (This will verify creation was successful)
+### The department with the `nextDepartmentId` should be in the list
+GET {{host}}/departmentplanner/{{nextUserId}}
+Authorization: Basic {{token}}
+
+
+### 6. Get all departments to choose the new department Id for updating
+GET {{host}}/department
+Authorization: Basic {{token}}
+
+### The ID should not be among the departmentPlanner's department ids, but should be among departments
+@updatedDepartmentId = 115
+
+### 7. Update departmentplanner using `nextUserId` and `nextDepartmentId` (Test the update operation)
+### For `newDepartmentId` you should use existing department id, which is not used for departmentPlanners (to ensure not making duplicates)
+PUT {{host}}/departmentplanner
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "userId": {{nextUserId}},
+    "departmentId": {{nextDepartmentId}},
+    "newDepartmentId": {{updatedDepartmentId}}
+}
+
+
+### 8. Get departmentPlanner info by `nextUserId` to check if updating departmentplanner was successfull
+GET {{host}}/departmentplanner/{{nextUserId}}
+Authorization: Basic {{token}}
+
+
+### 9. Deleting a departmentplanner (Test the delete operation)
+DELETE {{host}}/departmentplanner/{{nextUserId}}/{{updatedDepartmentId}}
+Authorization: Basic {{token}}
+
+
+### 10. Checking if deleting departmentplanner was successfull. 
+### The department with `updatedDepartmentId` should not be in the list:
+GET {{host}}/departmentplanner/{{nextUserId}}
+Authorization: Basic {{token}}

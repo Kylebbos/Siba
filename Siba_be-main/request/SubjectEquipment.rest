@@ -1,0 +1,70 @@
+### Remember to select the proper rest client environment
+
+### Reset database in admin env before performing other tests
+GET {{host}}/resetDatabase
+Authorization: Basic {{token}}
+
+### 1. Get all subjects to see existing Ids:
+GET {{host}}/subject
+Authorization: Basic {{token}}
+
+### 2. Get list of equipments for the subject, by existing subject Id. 
+# Change the subject Id until satisfying results:
+GET {{host}}/subjectequipment/getequipment/4002
+Authorization: Basic {{token}}
+
+### Set up for other tests:
+# Select subject id (better subject with less equipment) to add new equipment later:
+@subjectId=4002
+
+### 3. Get list of equipments for selected subject Id
+GET {{host}}/subjectequipment/getequipment/{{subjectId}}
+Authorization: Basic {{token}}
+
+### 4. Get the list of all equipment to choose existing id, which is not in the selected subject yet
+GET {{host}}/equipment
+Authorization: Basic {{token}}
+
+### Set up:
+# Select existing equipment id, which is not in the selected subject yet:
+@equipmentId=2001
+
+### 5. Creating the new subjectEquipment based on the unique combination of existing subjectId and equipmentId
+POST {{host}}/subjectequipment/post
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "subjectId": {{subjectId}},
+    "equipmentId": {{equipmentId}},
+    "obligatory": 1,
+    "priority": 500
+}
+
+### 6. Confirm newly created subjectEquipment by fetching list of equipments for selected subject (selected equipmentId should be in the list)
+GET {{host}}/subjectequipment/getequipment/{{subjectId}}
+Authorization: Basic {{token}}
+
+### 7. Update the subjectEquipment info (Test update operation):
+PUT {{host}}/subjectequipment/update
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "equipmentId": {{equipmentId}},
+    "obligatory": "0",
+    "priority": 1000,
+    "subjectId": {{subjectId}}
+}
+
+### 8. Confirm the update (Ensure the update took effect)
+GET {{host}}/subjectequipment/getequipment/{{subjectId}}
+Authorization: Basic {{token}}
+
+### 9. Delete newly created subjectEquipment by selected subjectId and equipmentId
+DELETE {{host}}/subjectequipment/delete/{{subjectId}}/{{equipmentId}}
+Authorization: Basic {{token}}
+
+### 10. Confirm deletion. The selected equipment shouldn't be in the list
+GET {{host}}/subjectequipment/getequipment/{{subjectId}}
+Authorization: Basic {{token}}

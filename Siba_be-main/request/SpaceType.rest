@@ -1,0 +1,96 @@
+### Remember to select the proper rest client environment
+### Note: spaceType doesn't have put and delete methods
+
+### Reset database in admin env before performing other tests
+GET {{host}}/resetDatabase
+Authorization: Basic {{token}}
+
+### 1. Get all spaceTypes to have a general overview
+GET {{host}}/spacetype
+Authorization: Basic {{token}}
+
+### Initial setup: Set the nextId after Testdata Reset
+### It should come after the last id in test data
+@nextId=5005
+
+### 2. Get one by id (use existing id)
+GET {{host}}/spacetype/5001
+Authorization: Basic {{token}}
+
+### 3. Create new SpaceType (Assume that the created building gets `nextId` or should be replaced with a returned ID to continue with the test)
+POST {{host}}/spacetype
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "testType",
+    "acronym": "T1",
+    "description": "a test spaceType"
+}
+
+### 4. Confirm the newly created equipment using the `nextId` (This will verify creation was successful and the correct ID was assigned)
+GET {{host}}/spacetype/{{nextId}}
+Authorization: Basic {{token}}
+
+### 5. Create new building without description
+POST {{host}}/spacetype
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "No desc spaceType",
+    "acronym": "T2"
+}
+
+### 6. Create building with empty string description
+POST {{host}}/spacetype
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "Empty string desc spaceType",
+    "acronym": "T3",
+    "description": ""
+}
+
+### 7. Create several buildings at a time (Testing the adding of multiple buildings operation)
+POST {{host}}/spacetype/multi
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+[
+    {
+    "name": "multi1",
+    "acronym": "T4",
+    "description": "descriptiondescription"
+    },
+
+    {
+    "name": "multi2",
+    "acronym": "T5"
+    }
+]
+
+### 8. Update the spacetype using `nextId` (Test the update operation)
+PUT {{host}}/spacetype
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "id": {{nextId}},
+    "name": "Updated name",
+    "acronym": "T6",
+    "description": "Updated Description"
+}
+
+### 9. Confirm the update (Ensure the update took effect)
+GET {{host}}/spacetype/{{nextId}}
+Authorization: Basic {{token}}
+
+### 10. Delete the building (Test the delete operation)
+DELETE {{host}}/spacetype/{{nextId}}
+Authorization: Basic {{token}}
+
+### 11. Confirm deletion (Trying to retrieve it should result in an 400 error)
+GET {{host}}/spacetype/{{nextId}}
+Authorization: Basic {{token}}
