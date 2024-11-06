@@ -372,3 +372,28 @@ export const validateMultiAcronymObl = [
 export const validateMultiDescription = [
   ...createMultiDescriptionValidatorChain('description'),
 ];
+
+export const createDateValidatorChain = (fieldName: string): ValidationChain[] => [
+  check(`${fieldName}`)
+    .isISO8601()
+    .withMessage(`${fieldName} must be a valid date in format (YYYY-MM-DD)`)
+    .bail()
+    .notEmpty()
+    .withMessage(`${fieldName} cannot be empty`)
+    .bail(),
+];
+
+export const createDecimalValidatorChain = (
+  fieldName: string,
+  decimalPlaces: number,
+): ValidationChain[] => [
+  check(`${fieldName}`)
+    .isDecimal({ decimal_digits: `0,${decimalPlaces}` })
+    .withMessage(`${fieldName} must be a decimal number with up to ${decimalPlaces} decimal place(s)`)
+    .bail()
+    .notEmpty()
+    .withMessage(`${fieldName} cannot be empty`)
+    .bail(),
+];
+
+

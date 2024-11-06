@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS SubjectEquipment;
 DROP TABLE IF EXISTS Subject;
 DROP TABLE IF EXISTS AllocRound;
 DROP TABLE IF EXISTS Program;
+DROP TABLE IF EXISTS City;
 
 DROP TABLE IF EXISTS SpaceEquipment;
 DROP TABLE IF EXISTS Equipment;
@@ -38,6 +39,13 @@ DROP TABLE IF EXISTS GlobalSetting;
 USE casedb; /* UPDATED 2024-01-24 */
 
 /* --- 01 CREATE TABLES --- */
+
+CREATE TABLE IF NOT EXISTS City (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(200),
+    established DATE,
+    averageTemp DECIMAL(3, 1)
+);
 
 CREATE TABLE IF NOT EXISTS GlobalSetting (
     id              INTEGER                     NOT NULL AUTO_INCREMENT,
@@ -731,6 +739,18 @@ INSERT INTO SubjectEquipment(subjectId, equipmentId, priority) VALUES
     (4024, 2004, 600),
     (4033, 2004, 600),
     (4039, 2030, 50); -- Noisy equipment
+
+INSERT INTO City (name, established, averageTemp) VALUES
+    ('Newburg', '1800-05-12', 18.5),
+    ('Oldtown', '1750-09-17', 19.3),
+    ('Hillsburg', '1823-04-23', 17.8),
+    ('Helsinki', '1600-05-22', 10.1),
+    ('Stockholm', '1200-04-10', 12.3),
+    ('Turku', '1400-03-30', 7.1),
+    ('Vantaa', '1650-06-28', 10),
+    ('Joensuu', '1450-02-17', 5.1),
+    ('Espoo', '1600-04-21', 10.3),
+    ('Lakeburg', '1900-11-08', 15.2);
 
 /* --- Insert: AllocSubject * --- */
 INSERT INTO AllocSubject(subjectId, allocRoundId, isAllocated, allocatedDate, priority) VALUES

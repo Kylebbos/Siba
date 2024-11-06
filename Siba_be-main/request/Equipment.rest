@@ -9,7 +9,7 @@ GET {{host}}/equipment
 Authorization: Basic {{token}}
 
 ### Initial setup: Set the nextId after Testdata Reset
-@nextId=2030
+@nextId=2031
 
 ### 2. Get one by id (use a known id for this test to ensure retrieval by ID works)
 GET {{host}}/equipment/2001

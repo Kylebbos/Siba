@@ -1,0 +1,87 @@
+### Used to test the city table's REST functions
+
+### Reset database in admin env before performing other tests
+GET {{host}}/resetDatabase
+Authorization: Basic {{token}}
+
+### 1. Get all citys to have a general overview
+GET {{host}}/city
+Authorization: Basic {{token}}
+
+### Initial setup: Set the nextId after Testdata Reset
+### It should come after the last id in test data
+@nextId=11
+
+### 2. Get city by existing (known) ID
+GET {{host}}/city/3
+Authorization: Basic {{token}}
+
+### 3. Create new city (Assume that the created city gets `nextId` or should be replaced with a returned ID to continue with the test)
+POST {{host}}/city
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "Test City",
+    "established": "2000-10-12",
+    "averageTemp": 22.4
+}
+
+### 4. Get city by testID to confirm newly created city exists
+GET {{host}}/city/{{nextId}}
+Authorization: Basic {{token}}
+
+### 5. Update city by `nextId` (Test update operation)
+PUT {{host}}/city/{{nextId}}
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "id": {{nextId}},
+    "name": "Updated Test City Name",
+    "established": "2000-10-12",
+    "averageTemp": 25.2
+}
+
+### 6. Confirm the update (Ensure the update took effect)
+GET {{host}}/city/{{nextId}}
+Authorization: Basic {{token}}
+
+### 7. Delete city (Test delete operation)
+DELETE {{host}}/city/{{nextId}}
+Authorization: Basic {{token}}
+
+### 8. Confirm deletion (Trying to retrieve it should result in a 400 error)
+GET {{host}}/city/{{nextId}}
+Authorization: Basic {{token}}
+
+### 9. Search for a city containig "burg"
+GET {{host}}/city/search/burg
+Authorization: Basic {{token}}
+
+### 10. Test the validation by adding data with wrong date format
+POST {{host}}/city
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "Test Helsinki",
+    "established": "2002",
+    "averageTemp": 22.4
+}
+
+### 11. Test the validation by adding data with wrong temp format
+POST {{host}}/city
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "name": "Test Helsinki",
+    "established": "2002-10-12",
+    "averageTemp": 2.3333333
+}
+
+### 12. Test for searching cities established after before a certain date (URL Parameter)
+GET {{host}}/city/established-before/1400-01-01
+Authorization: Basic {{token}}
+
