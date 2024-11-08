@@ -373,7 +373,9 @@ export const validateMultiDescription = [
   ...createMultiDescriptionValidatorChain('description'),
 ];
 
-export const createDateValidatorChain = (fieldName: string): ValidationChain[] => [
+export const createDateValidatorChain = (
+  fieldName: string
+): ValidationChain[] => [
   check(`${fieldName}`)
     .isISO8601()
     .withMessage(`${fieldName} must be a valid date in format (YYYY-MM-DD)`)
